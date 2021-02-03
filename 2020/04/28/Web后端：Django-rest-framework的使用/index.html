@@ -9,19 +9,19 @@
 <meta name="keywords" content="IT技术,python,Web后端,Ubuntu,Django,django-rest-framework">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Web后端：Django-rest-framework的使用">
-<meta property="og:url" content="https://blog.raxianch.moe/2020/04/28/Web后端：Django-rest-framework的使用/index.html">
+<meta property="og:url" content="https://blog.raxianch.moe/oldBlog/2020/04/28/Web后端：Django-rest-framework的使用/index.html">
 <meta property="og:site_name" content="RaXianch的博客">
 <meta property="og:description" content="Django DRF 的文档一看过去，就头晕目眩。将实践DRF应用做个记录，方便查阅。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://blog.raxianch.moe/2020/04/28/Web后端：Django-rest-framework的使用/93d3443c.png">
-<meta property="og:image" content="https://blog.raxianch.moe/2020/04/28/Web后端：Django-rest-framework的使用/1bd739a6.png">
-<meta property="og:image" content="https://blog.raxianch.moe/2020/04/28/Web后端：Django-rest-framework的使用/e9d5cc12.png">
-<meta property="og:image" content="https://blog.raxianch.moe/2020/04/28/Web后端：Django-rest-framework的使用/769962dd.png">
+<meta property="og:image" content="https://blog.raxianch.moe/oldBlog/2020/04/28/Web后端：Django-rest-framework的使用/93d3443c.png">
+<meta property="og:image" content="https://blog.raxianch.moe/oldBlog/2020/04/28/Web后端：Django-rest-framework的使用/1bd739a6.png">
+<meta property="og:image" content="https://blog.raxianch.moe/oldBlog/2020/04/28/Web后端：Django-rest-framework的使用/e9d5cc12.png">
+<meta property="og:image" content="https://blog.raxianch.moe/oldBlog/2020/04/28/Web后端：Django-rest-framework的使用/769962dd.png">
 <meta property="og:updated_time" content="2020-04-30T07:57:14.415Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Web后端：Django-rest-framework的使用">
 <meta name="twitter:description" content="Django DRF 的文档一看过去，就头晕目眩。将实践DRF应用做个记录，方便查阅。">
-<meta name="twitter:image" content="https://blog.raxianch.moe/2020/04/28/Web后端：Django-rest-framework的使用/93d3443c.png">
+<meta name="twitter:image" content="https://blog.raxianch.moe/oldBlog/2020/04/28/Web后端：Django-rest-framework的使用/93d3443c.png">
   
     <link rel="alternative" href="/atom.xml" title="RaXianch的博客" type="application/atom+xml">
   
@@ -307,7 +307,7 @@
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"># drf 响应&amp;状态</span><br><span class="line">from rest_framework.response import Response</span><br><span class="line">from rest_framework import status</span><br><span class="line"></span><br><span class="line"># drf 类视图导入</span><br><span class="line">from rest_framework.views import APIView</span><br><span class="line">from rest_framework.generics import ListAPIView</span><br><span class="line">from rest_framework.viewsets import ModelViewSet</span><br><span class="line"></span><br><span class="line"># 导入模组&amp;&amp;序列化器</span><br><span class="line">from .serialzers import magnetInfo</span><br><span class="line">from .serialzers import magnetInfoSerializer</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class List_magnetInfo(ListAPIView):</span><br><span class="line">    # 查询集，默认None</span><br><span class="line">    queryset = magnetInfo.objects.all()</span><br><span class="line">    # 定义该视图序列化器</span><br><span class="line">    serializer_class = magnetInfoSerializer</span><br><span class="line"></span><br><span class="line">    def post(self, request, *args, **kwargs):</span><br><span class="line">        serialized = self.serializer_class(data=request.data)</span><br><span class="line"></span><br><span class="line">        if serialized.is_valid():   # 验证数据是否合法并返回布尔值</span><br><span class="line"></span><br><span class="line">            # 必须使用is_valid方法校验后才能使用.data序列化成字典形式</span><br><span class="line">            print(serialized.data)</span><br><span class="line">            </span><br><span class="line">            if not serialized.data:</span><br><span class="line">                print(&quot;无值&quot;)</span><br><span class="line"></span><br><span class="line">            return Response(serialized.data, status=status.HTTP_201_CREATED)</span><br><span class="line">        else:</span><br><span class="line">            return Response(serialized._errors(), status=status.HTTP_400_BAD_REQUEST)</span><br></pre></td></tr></table></figure>
 <p> <strong><em> 如果出现此类警告 </em></strong></p>
 <p> <img src="93d3443c.png" alt=""></p>
-<p> <a href="https://blog.raxianch.moe/2020/04/22/Web%E5%90%8E%E7%AB%AF%EF%BC%9ADjango%E7%9A%84models%E9%87%8C%E7%9A%84objects%E4%BD%BF%E7%94%A8%E6%97%B6%E5%87%BA%E7%8E%B0%E9%BB%84%E8%89%B2%E8%AD%A6%E5%91%8A/">解决办法，点我</a></p>
+<p> <a href="https://blog.raxianch.moe/oldBlog/2020/04/22/Web%E5%90%8E%E7%AB%AF%EF%BC%9ADjango%E7%9A%84models%E9%87%8C%E7%9A%84objects%E4%BD%BF%E7%94%A8%E6%97%B6%E5%87%BA%E7%8E%B0%E9%BB%84%E8%89%B2%E8%AD%A6%E5%91%8A/">解决办法，点我</a></p>
 </li>
 <li><p>修改路由映射</p>
 <p>全局根路由映射 moePloy/urls.py</p>
@@ -418,8 +418,8 @@
         <p><span>发布时间:</span>2020年04月28日 - 11时15分</p>
         <p><span>最后更新:</span>2020年04月30日 - 15时57分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2020/04/28/Web后端：Django-rest-framework的使用/" title="Web后端：Django-rest-framework的使用">https://blog.raxianch.moe/2020/04/28/Web后端：Django-rest-framework的使用/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://blog.raxianch.moe/2020/04/28/Web后端：Django-rest-framework的使用/　　作者: RaXianch" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2020/04/28/Web后端：Django-rest-framework的使用/" title="Web后端：Django-rest-framework的使用">https://blog.raxianch.moe/oldBlog/2020/04/28/Web后端：Django-rest-framework的使用/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://blog.raxianch.moe/oldBlog/2020/04/28/Web后端：Django-rest-framework的使用/　　作者: RaXianch" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
